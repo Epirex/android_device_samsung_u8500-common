@@ -47,6 +47,10 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
     $(COMMON_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    media.stagefright.use-awesome=false \
+    persist.sys.media.use-awesome=true
+
 # Wifi
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
@@ -172,6 +176,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Storage switch
  PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.vold.switchablepair=sdcard0,sdcard1
+
+# HWUI tweaks
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.hwui.drop_shadow_cache_size=1 \
+    ro.hwui.gradient_cache_size=0.2 \
+    ro.hwui.layer_cache_size=6 \
+    ro.hwui.path_cache_size=2 \
+    ro.hwui.r_buffer_cache_size=1 \
+    ro.hwui.texture_cache_size=8
 
 # Dalvik VM config for 768MB RAM devices
 PRODUCT_PROPERTY_OVERRIDES += \
