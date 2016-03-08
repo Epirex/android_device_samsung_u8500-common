@@ -128,7 +128,6 @@ PRODUCT_PACKAGES += \
 
 # F2FS
 PRODUCT_PACKAGES += \
-    genfstab \
     mkfs.f2fs \
     fsck.f2fs \
     fibmap.f2fs
