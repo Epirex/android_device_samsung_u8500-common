@@ -65,7 +65,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=150 \
-    net.tethering.noprovisioning=true
+    net.tethering.noprovisioning=true \
+    ro.disableWifiApFirmwareReload=true
 
 # Wi-Fi firmware
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
@@ -219,8 +220,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.secure=1 \
     ro.allow.mock.location=0 \
     ro.debuggable=1 \
-    ro.zygote=zygote32 \
-    persist.sys.usb.config=mtp
+    ro.zygote=zygote32
 
 # Use the non-open-source parts, if they're present
 include vendor/samsung/u8500/vendor-common.mk
