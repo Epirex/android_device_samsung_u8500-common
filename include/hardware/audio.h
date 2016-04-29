@@ -1,7 +1,5 @@
 /*
  * Copyright (C) 2011 The Android Open Source Project
- * Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
- * Not a Contribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,6 +120,9 @@ __BEGIN_DECLS
  * or no HW sync is available. */
 #define AUDIO_PARAMETER_HW_AV_SYNC "hw_av_sync"
 
+/* Device state*/
+#define AUDIO_PARAMETER_KEY_DEV_SHUTDOWN "dev_shutdown"
+
 /**
  *  audio stream parameters
  */
@@ -148,31 +149,6 @@ __BEGIN_DECLS
 
 /* Set the HW synchronization source for an output stream. */
 #define AUDIO_PARAMETER_STREAM_HW_AV_SYNC "hw_av_sync"
-#define AUDIO_PARAMETER_HW_AV_SYNC "hw_av_sync"
-
-/* Query handle fm parameter*/
-#define AUDIO_PARAMETER_KEY_HANDLE_FM "handle_fm"
-
-/* Query voip flag */
-#define AUDIO_PARAMETER_KEY_VOIP_CHECK "voip_flag"
-
-/* Query Fluence type */
-#define AUDIO_PARAMETER_KEY_FLUENCE_TYPE "fluence"
-
-/* Query if surround sound recording is supported */
-#define AUDIO_PARAMETER_KEY_SSR "ssr"
-
-/* Query if a2dp  is supported */
-#define AUDIO_PARAMETER_KEY_HANDLE_A2DP_DEVICE "isA2dpDeviceSupported"
-
-/* Query ADSP Status */
-#define AUDIO_PARAMETER_KEY_ADSP_STATUS "ADSP_STATUS"
-
-/* Query if Proxy can be Opend */
-#define AUDIO_CAN_OPEN_PROXY "can_open_proxy"
-
-/* Query fm volume */
-#define AUDIO_PARAMETER_KEY_FM_VOLUME "fm_volume"
 
 /**
  * audio codec parameters
@@ -190,22 +166,6 @@ __BEGIN_DECLS
 #define AUDIO_OFFLOAD_CODEC_DOWN_SAMPLING  "music_offload_down_sampling"
 #define AUDIO_OFFLOAD_CODEC_DELAY_SAMPLES  "delay_samples"
 #define AUDIO_OFFLOAD_CODEC_PADDING_SAMPLES  "padding_samples"
-
-/* Query if surround sound recording is supported */
-#define AUDIO_PARAMETER_KEY_SSR "ssr"
-
-/* Query ADSP Status */
-#define AUDIO_PARAMETER_KEY_ADSP_STATUS "ADSP_STATUS"
-
-#ifdef QCOM_DIRECTTRACK
-/** Structure to save buffer information for applying effects for
-+ *  LPA buffers */
-struct buf_info {
-    int bufsize;
-    int nBufs;
-    int **buffers;
-};
-#endif
 
 /**************************************/
 
@@ -360,18 +320,6 @@ struct audio_stream_out {
     int (*get_render_position)(const struct audio_stream_out *stream,
                                uint32_t *dsp_frames);
 
-#ifdef QCOM_DIRECTTRACK
-    /**
-     * start audio data rendering
-     */
-    int (*start)(struct audio_stream_out *stream);
-
-    /**
-     * stop audio data rendering
-     */
-    int (*stop)(struct audio_stream_out *stream);
-#endif
-
     /**
      * get the local time at which the next write to the audio driver will be presented.
      * The units are microseconds, where the epoch is decided by the local audio HAL.
@@ -453,30 +401,6 @@ struct audio_stream_out {
     int (*get_presentation_position)(const struct audio_stream_out *stream,
                                uint64_t *frames, struct timespec *timestamp);
 
-#ifdef QCOM_DIRECTTRACK
-    /**
-    * return the current timestamp after quering to the driver
-     */
-    int (*get_time_stamp)(const struct audio_stream_out *stream,
-                               uint64_t *time_stamp);
-    /**
-    * EOS notification from HAL to Player
-     */
-    int (*set_observer)(const struct audio_stream_out *stream,
-                               void *observer);
-    /**
-     * Get the physical address of the buffer allocated in the
-     * driver
-     */
-    int (*get_buffer_info) (const struct audio_stream_out *stream,
-                                struct buf_info **buf);
-    /**
-     * Check if next buffer is available. Waits until next buffer is
-     * available
-     */
-    int (*is_buffer_available) (const struct audio_stream_out *stream,
-                                     int *isAvail);
-#endif
 };
 typedef struct audio_stream_out audio_stream_out_t;
 
@@ -524,8 +448,7 @@ static inline size_t audio_stream_frame_size(const struct audio_stream *s)
     size_t chan_samp_sz;
     audio_format_t format = s->get_format(s);
 
-    if (audio_is_linear_pcm(format) &&
-            format != AUDIO_FORMAT_PCM_8_24_BIT) {
+    if (audio_is_linear_pcm(format)) {
         chan_samp_sz = audio_bytes_per_sample(format);
         return popcount(s->get_channels(s)) * chan_samp_sz;
     }
@@ -784,18 +707,7 @@ static inline int audio_hw_device_close(struct audio_hw_device* device)
     return device->common.close(&device->common);
 }
 
-#ifdef QCOM_DIRECTTRACK
-#ifdef __cplusplus
-/**
- *Observer class to post the Events from HAL to Flinger
-*/
-class AudioEventObserver {
-public:
-    virtual ~AudioEventObserver() {}
-    virtual void postEOS(int64_t delayUs) = 0;
-};
-#endif
-#endif
+
 __END_DECLS
 
 #endif  // ANDROID_AUDIO_INTERFACE_H
