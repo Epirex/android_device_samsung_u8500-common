@@ -3,18 +3,29 @@ import /init.u8500.usb.rc
 
 on init
 
-    # Support legacy paths
-    symlink /sdcard /mnt/sdcard
-    symlink /sdcard /storage/sdcard0
-
-    # By default, primary storage is physical
-    setprop ro.vold.primary_physical 1
-
-    # Efs
+    # Preload modemfs
     mkdir /efs 0771 radio system
     mkdir /modemfs 0771 system system
     mkdir /preload 0771 system system
     mkdir /mnt/.lfs 0755 root root
+
+    # For backwards compatibility
+    mkdir /storage/sdcard0 0700 root root
+    mkdir /storage/sdcard1 0700 root root
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+
+    export EXTERNAL_STORAGE /storage/sdcard0
+    export SECONDARY_STORAGE /storage/sdcard1
+
+    # Support legacy paths
+    symlink /sdcard /mnt/sdcard
+    symlink /sdcard /storage/sdcard0
+    symlink /storage/sdcard0 /mnt/sdcard0
+    symlink /storage/sdcard1 /mnt/sdcard1
+
+    # By default, primary storage is physical
+    setprop ro.vold.primary_physical 1
 
     # Setup the global environment
     export LD_LIBRARY_PATH /vendor/lib:/system/lib:/system/lib/ste_omxcomponents
