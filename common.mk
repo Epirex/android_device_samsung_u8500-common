@@ -227,4 +227,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp,adb
 
 # Use the non-open-source parts, if they're present
-include vendor/samsung/u8500/vendor-common.mk
+$(call inherit-product, vendor/samsung/u8500/vendor-common.mk)
