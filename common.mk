@@ -120,7 +120,8 @@ PRODUCT_COPY_FILES += \
 
 # Misc Packages
 PRODUCT_PACKAGES += \
-    SamsungServiceMode
+    SamsungServiceMode \
+    Snap
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
