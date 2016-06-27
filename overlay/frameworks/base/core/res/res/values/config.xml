@@ -257,13 +257,9 @@
          (range of 18 - 21 kHz). -->
     <bool name="config_supportSpeakerNearUltrasound">false</bool>
 
-     <!-- If there is no sysfs-based control mechanism, enable this
-     <bool name="useCameraInterface">false</bool> -->
- 
-     <!-- Full path to the sysfs toggle
-     <string name="flashDevice">/sys/class/sec/flash/enable</string> -->
- 
-     <!-- On setting
-     <integer name="valueOn">1</integer> -->
+    <!--  Maximum number of supported users -->
+    <integer name="config_multiuserMaximumUsers">4</integer>
+    <!-- Whether UI for multi user should be shown -->
+    <bool name="config_enableMultiUserUI">true</bool>
 
 </resources>
