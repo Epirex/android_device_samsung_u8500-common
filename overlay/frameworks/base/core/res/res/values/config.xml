@@ -249,6 +249,14 @@
         <item>com.google.android.gms/com.google.android.gms.update.SystemUpdateService$SecretCodeReceiver</item>
     </string-array>
 
+    <!-- Ultrasound support for Mic/speaker path -->
+    <!-- Whether the default microphone audio source supports near-ultrasound frequencies
+         (range of 18 - 21 kHz). -->
+    <bool name="config_supportMicNearUltrasound">false</bool>
+    <!-- Whether the default speaker audio output path supports near-ultrasound frequencies
+         (range of 18 - 21 kHz). -->
+    <bool name="config_supportSpeakerNearUltrasound">false</bool>
+
      <!-- If there is no sysfs-based control mechanism, enable this
      <bool name="useCameraInterface">false</bool> -->
  
