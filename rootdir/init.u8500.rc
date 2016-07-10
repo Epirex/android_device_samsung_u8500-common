@@ -254,8 +254,6 @@ on early-boot
 
 on boot
 
-    # debugfs
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
     setprop wifi.interface wlan0
 
     chown radio radio /sys/class/usb_switch/FSA_SWITCH/jig_smd
