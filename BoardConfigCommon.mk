@@ -115,14 +115,12 @@ BOARD_LPM_BOOT_ARGUMENT_NAME := lpm_boot
 BOARD_LPM_BOOT_ARGUMENT_VALUE := 1
 
 # Recovery
-#BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/u8500-common/recovery/graphics.c
 BOARD_UMS_LUNFILE := "/sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun0/file"
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/u8500-common/recovery/recovery_keys.c
 BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_SUPPRESS_EMMC_WIPE := true
-BOARD_RECOVERY_SWIPE := true
 RECOVERY_VARIANT := twrp
 
 # Delete the line below when SELinux is enabled on all devices
@@ -130,7 +128,7 @@ COMMON_GLOBAL_CFLAGS += -DRECOVERY_CANT_USE_CONFIG_EXT4_FS_XATTR
 
 # Releasetools
 WITH_LZMA_OTA := true
-TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/u8500-common
+TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/u8500-common/releasetools
 
 # Bionic
 TARGET_ENABLE_NON_PIE_SUPPORT := true
