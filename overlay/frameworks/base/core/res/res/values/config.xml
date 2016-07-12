@@ -249,4 +249,7 @@
     <!-- Show battery fully charged notification -->
     <bool name="config_showBatteryFullyChargedNotification">true</bool>
 
+    <!-- Disable IpReachability monitor -->
+    <bool name="config_wifi_ipreachability_monitor">false</bool>
+
 </resources>
