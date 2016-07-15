@@ -21,6 +21,9 @@ DEVICE_PACKAGE_OVERLAYS := $(COMMON_PATH)/overlay
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
+# System properties
+-include $(COMMON_PATH)/system_prop.mk
+
 # APN
 PRODUCT_COPY_FILES := $(COMMON_PATH)/configs/apns-conf.xml:system/etc/apns-conf.xml
 
@@ -33,32 +36,19 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/rootdir/init.u8500.rc:root/init.u8500.rc \
     $(COMMON_PATH)/rootdir/init.u8500.usb.rc:root/init.u8500.usb.rc
 
-# Graphics
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.opengles.version=131072 \
-    ro.zygote.disable_gl_preload=1 \
-    ro.bq.gpu_to_cpu_unsupported=1 \
-    debug.sf.hw=1 \
-    debug.hwui.render_dirty_regions=false
-
 # Media
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/omxloaders:system/etc/omxloaders \
     $(COMMON_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
     $(COMMON_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    media.stagefright.use-awesome=false \
-    persist.sys.media.use-awesome=true
-
-# Wifi
+# Wi-Fi
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
+
 PRODUCT_PACKAGES += \
     libnetcmdiface
-PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.interface=wlan0 \
-    wifi.supplicant_scan_interval=150
+
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
 
 # Bluetooth
@@ -70,18 +60,11 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/cspsa.conf:system/etc/cspsa.conf \
     $(COMMON_PATH)/configs/usbid_init.sh:system/bin/usbid_init.sh
 
-# RIL
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.ril.hsxpa=1 \
-    ro.ril.gprsclass=10 \
-    ro.telephony.ril_class=SamsungU8500RIL \
-    ro.telephony.sends_barcount=1 \
-    mobiledata.interfaces=pdp0,wlan0,gprs,ppp0
-
 # Audio
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
     $(COMMON_PATH)/configs/asound.conf:system/etc/asound.conf
+
 PRODUCT_PACKAGES += \
     audio.usb.default \
     audio.a2dp.default \
@@ -90,11 +73,6 @@ PRODUCT_PACKAGES += \
 
 # U8500 Hardware
 $(call inherit-product, hardware/u8500/u8500.mk)
-
-# USB
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp,adb \
-    persist.service.adb.enable=1
 
 # Prebuilt Charger
 PRODUCT_COPY_FILES += \
@@ -122,7 +100,6 @@ PRODUCT_PACKAGES += \
 
 # F2FS
 PRODUCT_PACKAGES += \
-    genfstab \
     mkfs.f2fs \
     fsck.f2fs \
     fibmap.f2fs
@@ -160,46 +137,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
-# Live Wallpapers
-PRODUCT_PACKAGES += \
-    librs_jni
-
-# Disable error Checking
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.kernel.android.checkjni=0 \
-    dalvik.vm.checkjni=false
-
-# SELinux
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.boot.selinux=permissive
-
-# Storage switch
- PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.vold.switchablepair=sdcard0,sdcard1
-
-# HWUI tweaks
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hwui.drop_shadow_cache_size=1 \
-    ro.hwui.gradient_cache_size=0.2 \
-    ro.hwui.layer_cache_size=6 \
-    ro.hwui.path_cache_size=2 \
-    ro.hwui.r_buffer_cache_size=1 \
-    ro.hwui.texture_cache_size=8
-
-# Dalvik VM config for 768MB RAM devices
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dexopt-data-only=1 \
-    dalvik.vm.heapstartsize=5m \
-    dalvik.vm.heapgrowthlimit=48m \
-    dalvik.vm.heapsize=128m \
-    dalvik.vm.heaptargetutilization=0.75 \
-    dalvik.vm.heapminfree=512k \
-    dalvik.vm.heapmaxfree=4m
+# Dalvik precise GC
 PRODUCT_TAGS += dalvik.gc.type-precise
-
-# KSM
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.ksm.default=1
 
 # Use the non-open-source parts, if they're present
 include vendor/samsung/u8500/vendor-common.mk
