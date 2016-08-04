@@ -54,8 +54,6 @@ on init
     chmod 0644 /proc/cmdline
 
 on fs
-
-    setprop ro.crypto.fuse_sdcard true
  
     # Setup zRAM
     write /sys/block/zram0/comp_algorithm lz4
