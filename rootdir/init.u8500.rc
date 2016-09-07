@@ -66,6 +66,10 @@ on fs
     write /sys/kernel/mm/ksm/sleep_millisecs 500
     write /sys/kernel/mm/ksm/run 1
  
+    # Setup LMK
+    write /sys/module/lowmemorykiller/parameters/adj 0,3,6,10,13,15
+    write /sys/module/lowmemorykiller/parameters/minfree 4096,8048,10120,14280,18244,25000
+
     # Start CSPSA before synchronously running the factory reset utility that
     # checks the factory reset triggers in sysfs and CSPSA and then formats
     # the block device belonging to /data.
