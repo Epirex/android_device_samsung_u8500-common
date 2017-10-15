@@ -418,6 +418,15 @@ service immvibed /system/bin/immvibed
     group shell
     oneshot
 
+# Meticulus:
+# Little hack to restart the ril in MM.
+# There is some sort of timing issue with
+# Reading getting the status of the SIM
+# during boot but works fine like this.
+on property:sys.boot_completed=1
+   stop ril-daemon
+   start ril-daemon
+
 on property:ro.dumpstate.dmesg=1
     write /proc/sys/kernel/dmesg_restrict 0
 
