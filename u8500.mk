@@ -85,7 +85,7 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/prebuilt/charger/images/battery_3.png:root/res/images/charger/battery_3.png \
     $(COMMON_PATH)/prebuilt/charger/images/battery_4.png:root/res/images/charger/battery_4.png \
     $(COMMON_PATH)/prebuilt/charger/images/battery_5.png:root/res/images/charger/battery_5.png \
-    $(COMMON_PATH)/prebuilt/charger/images/battery_charge.png:root/res/images/charger/battery_charge.png \
+    $(COMMON_PATH)/prebuilt/charger/images/battery_6.png:root/res/images/charger/battery_6.png \
     $(COMMON_PATH)/prebuilt/charger/images/battery_fail.png:root/res/images/charger/battery_fail.png
 
 # Misc Packages
